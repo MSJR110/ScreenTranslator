@@ -27,7 +27,7 @@ Press a shortcut, drag over anything on screen — a video, a PDF, a game, an im
 
 | Original | Live translation |
 |---|---|
-| <img src="docs/screenshots/before.png" alt="Original English article" /> | <img src="docs/screenshots/after.png" alt="Same article, translated in place" /> |
+| <img src="docs/screenshots/before.png" alt="Original English article" width="400" /> | <img src="docs/screenshots/after.png" alt="Same article, translated in place" width="400" /> |
 
 ## Features
 

@@ -26,7 +26,7 @@
 
 | متن اصلی | ترجمه‌ی زنده |
 |---|---|
-| <img src="docs/screenshots/before.png" alt="مقاله‌ی اصلی انگلیسی" /> | <img src="docs/screenshots/after.png" alt="همان مقاله، ترجمه‌شده در جای خودش" /> |
+| <img src="docs/screenshots/before.png" alt="مقاله‌ی اصلی انگلیسی" width="400" /> | <img src="docs/screenshots/after.png" alt="همان مقاله، ترجمه‌شده در جای خودش" width="400" /> |
 
 ## ویژگی‌ها
 
