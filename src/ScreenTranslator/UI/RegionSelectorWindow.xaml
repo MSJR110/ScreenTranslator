@@ -1,0 +1,73 @@
+<Window x:Class="ScreenTranslator.UI.RegionSelectorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Select region"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ShowActivated="True"
+        Cursor="Cross"
+        KeyDown="OnKeyDown"
+        MouseLeftButtonDown="OnMouseDown"
+        MouseMove="OnMouseMove"
+        MouseLeftButtonUp="OnMouseUp"
+        MouseRightButtonDown="OnCancelClick">
+
+    <Grid x:Name="Root" Background="#01000000">
+        <!-- Dim everything except the selected rectangle -->
+        <Path x:Name="Dim" Fill="#8A000000" IsHitTestVisible="False" Opacity="0">
+            <Path.Data>
+                <CombinedGeometry GeometryCombineMode="Exclude">
+                    <CombinedGeometry.Geometry1>
+                        <RectangleGeometry x:Name="FullRect" />
+                    </CombinedGeometry.Geometry1>
+                    <CombinedGeometry.Geometry2>
+                        <RectangleGeometry x:Name="HoleRect" />
+                    </CombinedGeometry.Geometry2>
+                </CombinedGeometry>
+            </Path.Data>
+        </Path>
+
+        <Canvas IsHitTestVisible="False">
+            <!-- Crosshair guides before the drag starts -->
+            <Line x:Name="GuideH" Stroke="#66FFFFFF" StrokeThickness="1" StrokeDashArray="4 4" Visibility="Collapsed" />
+            <Line x:Name="GuideV" Stroke="#66FFFFFF" StrokeThickness="1" StrokeDashArray="4 4" Visibility="Collapsed" />
+
+            <Rectangle x:Name="Frame" Stroke="{DynamicResource Accent}" StrokeThickness="1.5" Visibility="Collapsed" RadiusX="3" RadiusY="3">
+                <Rectangle.Effect>
+                    <DropShadowEffect x:Name="FrameGlow" BlurRadius="14" ShadowDepth="0" Opacity="0.7" />
+                </Rectangle.Effect>
+            </Rectangle>
+
+            <!-- Corner handles -->
+            <Canvas x:Name="Handles" Visibility="Collapsed">
+                <Path x:Name="H1" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                <Path x:Name="H2" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                <Path x:Name="H3" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                <Path x:Name="H4" Stroke="White" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+            </Canvas>
+
+            <Border x:Name="SizeBadge" Background="#F2241B1F" CornerRadius="6" Padding="8,3" Visibility="Collapsed" BorderBrush="{DynamicResource Rim}" BorderThickness="1">
+                <TextBlock x:Name="SizeText" Foreground="White" FontSize="12" FontFamily="Cascadia Mono, Consolas, Segoe UI" />
+            </Border>
+        </Canvas>
+
+        <Border x:Name="Hint" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,36,0,0"
+                Background="#F2241B1F" CornerRadius="14" Padding="18,10" IsHitTestVisible="False"
+                BorderBrush="{DynamicResource Rim}" BorderThickness="1" RenderTransformOrigin="0.5,0">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="HintSlide" Y="-16" />
+            </Border.RenderTransform>
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.5" />
+            </Border.Effect>
+            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                <TextBlock x:Name="HintIcon" Text="&#xE7A8;" FontSize="15" Margin="0,0,10,0" VerticalAlignment="Center" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                <TextBlock x:Name="HintText" Foreground="White" FontSize="14" FontFamily="{DynamicResource AppFont}" VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

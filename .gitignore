@@ -1,0 +1,11 @@
+.vs/
+bin/
+obj/
+dist/
+installer/Output/
+*.user
+*.suo
+TestResults/
+.idea/
+Thumbs.db
+desktop.ini

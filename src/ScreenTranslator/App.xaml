@@ -1,0 +1,248 @@
+<Application x:Class="ScreenTranslator.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI/Controls.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        <!-- Brushes are filled in by Theme.Apply(); these defaults only exist so the designer/first layout never sees a missing key. -->
+        <SolidColorBrush x:Key="Surface" Color="#F4201A1E" />
+        <SolidColorBrush x:Key="SurfaceTint" Color="#741A1317" />
+        <SolidColorBrush x:Key="Text" Color="#FFFAF4F0" />
+        <SolidColorBrush x:Key="Muted" Color="#FFB3A69F" />
+        <SolidColorBrush x:Key="Accent" Color="#FFFF7A4D" />
+        <SolidColorBrush x:Key="Accent2" Color="#FFFFB547" />
+        <SolidColorBrush x:Key="AccentSoft" Color="#30FF7A4D" />
+        <Color x:Key="AccentColor">#FFFF7A4D</Color>
+        <Color x:Key="Accent2Color">#FFFFB547</Color>
+        <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFFF7A4D" Offset="0" /><GradientStop Color="#FFFFB547" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="AccentGradientSoft" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#3CFF7A4D" Offset="0" /><GradientStop Color="#3CFFB547" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Rim" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#3AFFFFFF" Offset="0" /><GradientStop Color="#10FFFFFF" Offset="1" />
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="Ambient" Color="Transparent" />
+        <SolidColorBrush x:Key="Divider" Color="#22FFEADE" />
+        <SolidColorBrush x:Key="ButtonBg" Color="#1AFFECE0" />
+        <SolidColorBrush x:Key="ButtonHover" Color="#2CFFECE0" />
+        <SolidColorBrush x:Key="ButtonPressed" Color="#40FFECE0" />
+        <SolidColorBrush x:Key="Error" Color="#FFFF6E6E" />
+        <SolidColorBrush x:Key="Success" Color="#FF5CE09A" />
+        <SolidColorBrush x:Key="Border" Color="#30FFEADE" />
+        <SolidColorBrush x:Key="InputBg" Color="#14FFECE0" />
+        <FontFamily x:Key="AppFont">./Assets/Fonts/#Vazirmatn, Segoe UI</FontFamily>
+        <FontFamily x:Key="IconFont">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
+
+        <!-- ===== Buttons ===== -->
+        <Style x:Key="FlatButton" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource ButtonBg}" />
+            <Setter Property="Foreground" Value="{DynamicResource Text}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="FontFamily" Value="{DynamicResource AppFont}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="B" Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}"
+                                BorderBrush="{DynamicResource Rim}" BorderThickness="1" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="False" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="B" Property="Background" Value="{DynamicResource ButtonHover}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="B" Property="Background" Value="{DynamicResource ButtonPressed}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Primary action: signature gradient with a warm glow underneath. -->
+        <Style x:Key="AccentButton" TargetType="Button" BasedOn="{StaticResource FlatButton}">
+            <Setter Property="Background" Value="{DynamicResource AccentGradient}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="Glow" CornerRadius="10" Background="{DynamicResource Accent}" Opacity="0.45" Margin="4,6,4,-2">
+                                <Border.Effect><BlurEffect Radius="14" /></Border.Effect>
+                            </Border>
+                            <Border x:Name="B" Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}"
+                                    BorderBrush="#66FFFFFF" BorderThickness="1,1,1,0">
+                                <Grid>
+                                    <Border x:Name="Sheen" CornerRadius="10" Background="#FFFFFFFF" Opacity="0" />
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="False" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Sheen" Property="Opacity" Value="0.14" />
+                                <Setter TargetName="Glow" Property="Opacity" Value="0.7" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Sheen" Property="Opacity" Value="0" />
+                                <Setter TargetName="B" Property="Opacity" Value="0.85" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                                <Setter TargetName="Glow" Property="Opacity" Value="0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource FlatButton}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
+            <Setter Property="Foreground" Value="{DynamicResource Muted}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="B" Background="{TemplateBinding Background}" CornerRadius="9" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="False" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="B" Property="Background" Value="{DynamicResource ButtonHover}" />
+                                <Setter Property="Foreground" Value="{DynamicResource Text}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True"><Setter TargetName="B" Property="Background" Value="{DynamicResource ButtonPressed}" /></Trigger>
+                            <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.4" /></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ===== Surfaces ===== -->
+        <!-- A frosted card inside an acrylic window: soft warm fill + a rim highlight on top. -->
+        <Style x:Key="GlassCard" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource ButtonBg}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Rim}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="16,12" />
+        </Style>
+
+        <!-- Small rounded status/hotkey chip. -->
+        <Style x:Key="Chip" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource InputBg}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Border}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="999" />
+            <Setter Property="Padding" Value="10,3" />
+        </Style>
+
+        <!-- Keyboard key cap. -->
+        <Style x:Key="Kbd" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource InputBg}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Border}" />
+            <Setter Property="BorderThickness" Value="1,1,1,2" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="7,2" />
+            <Setter Property="Margin" Value="0,0,4,0" />
+        </Style>
+
+        <!-- Gradient icon tile (feature cards, tray actions). -->
+        <Style x:Key="IconTile" TargetType="Border">
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Background" Value="{DynamicResource AccentGradientSoft}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Rim}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style x:Key="IconTileGlyph" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <!-- ===== Text ===== -->
+        <Style x:Key="ReadOnlyText" TargetType="TextBox">
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="FontFamily" Value="{DynamicResource AppFont}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="CaretBrush" Value="{DynamicResource Text}" />
+            <Setter Property="SelectionBrush" Value="{DynamicResource Accent}" />
+            <Setter Property="SelectionOpacity" Value="0.45" />
+        </Style>
+
+        <Style x:Key="Label" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{DynamicResource AppFont}" />
+            <Setter Property="Foreground" Value="{DynamicResource Text}" />
+            <Setter Property="FontSize" Value="13.5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="MutedLabel" TargetType="TextBlock" BasedOn="{StaticResource Label}">
+            <Setter Property="Foreground" Value="{DynamicResource Muted}" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style x:Key="SectionTitle" TargetType="TextBlock" BasedOn="{StaticResource Label}">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+            <Setter Property="Margin" Value="4,18,4,8" />
+        </Style>
+
+        <!-- Large display title with the signature gradient. -->
+        <Style x:Key="GradientTitle" TargetType="TextBlock" BasedOn="{StaticResource Label}">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{DynamicResource AccentGradient}" />
+        </Style>
+
+        <Style TargetType="ToolTip">
+            <Setter Property="FontFamily" Value="{DynamicResource AppFont}" />
+            <Setter Property="Background" Value="{DynamicResource Surface}" />
+            <Setter Property="Foreground" Value="{DynamicResource Text}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Border}" />
+            <Setter Property="Padding" Value="9,5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToolTip">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

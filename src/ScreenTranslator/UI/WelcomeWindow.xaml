@@ -1,0 +1,148 @@
+<Window x:Class="ScreenTranslator.UI.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ScreenTranslator"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        ShowInTaskbar="True"
+        WindowStartupLocation="CenterScreen"
+        Width="640"
+        SizeToContent="Height"
+        FlowDirection="RightToLeft"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        KeyDown="OnKeyDown">
+
+    <Window.Resources>
+        <Style x:Key="FeatureCard" TargetType="Border" BasedOn="{StaticResource GlassCard}">
+            <Setter Property="Padding" Value="16,14" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        <Style x:Key="FeatureIcon" TargetType="Border" BasedOn="{StaticResource IconTile}">
+            <Setter Property="Width" Value="44" />
+            <Setter Property="Height" Value="44" />
+            <Setter Property="Margin" Value="0,0,14,0" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style x:Key="FeatureGlyph" TargetType="TextBlock" BasedOn="{StaticResource IconTileGlyph}">
+            <Setter Property="FontSize" Value="19" />
+        </Style>
+    </Window.Resources>
+
+    <Border x:Name="Shell" Background="{DynamicResource SurfaceTint}">
+        <Grid>
+        <Rectangle Fill="{DynamicResource Ambient}" IsHitTestVisible="False" />
+        <Grid x:Name="Root" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="Scale" ScaleX="1" ScaleY="1" />
+            </Grid.RenderTransform>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Hero -->
+            <Grid Grid.Row="0" Background="#01000000" MouseLeftButtonDown="OnDrag" Margin="28,26,20,8">
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="Logo" Width="68" Height="68" Margin="0,0,18,0" VerticalAlignment="Center"><Image.Effect><DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.35" Color="#FF7A4D" /></Image.Effect></Image>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource GradientTitle}" FontSize="24" Text="خوش آمدی به ScreenTranslator" />
+                        <TextBlock Style="{StaticResource MutedLabel}" FontSize="13.5" Margin="0,4,0,0" TextWrapping="Wrap" MaxWidth="470"
+                                   Text="هر متنی روی صفحه را بخوان و ترجمه کن — بدون کپی، بدون سوییچ پنجره. برنامه در کنار ساعت ویندوز می‌نشیند و فقط با میان‌بر بیدار می‌شود." />
+                    </StackPanel>
+                </StackPanel>
+                <Button Style="{StaticResource IconButton}" Content="&#xE711;" HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnStart" ToolTip="بستن" />
+            </Grid>
+
+            <!-- Features -->
+            <StackPanel Grid.Row="1" Margin="28,14,28,0">
+                <Border Style="{StaticResource FeatureCard}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Style="{StaticResource FeatureIcon}"><TextBlock Style="{StaticResource FeatureGlyph}" Text="&#xE7A8;" /></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="ترجمه‌ی ناحیه" />
+                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="میان‌بر را بزن، دور متن بکش، ترجمه را کنارش ببین. برای عکس، ویدئو، بازی و PDF." />
+                        </StackPanel>
+                        <StackPanel x:Name="KbdRegion" Grid.Column="2" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center" Margin="12,0,0,0" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource FeatureCard}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Style="{StaticResource FeatureIcon}"><TextBlock Style="{StaticResource FeatureGlyph}" Text="&#xE8D2;" /></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="ترجمه‌ی متن انتخاب‌شده" />
+                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="متن را در هر برنامه‌ای انتخاب کن و میان‌بر را بزن. بدون OCR، دقیق‌ترین حالت." />
+                        </StackPanel>
+                        <StackPanel x:Name="KbdSelection" Grid.Column="2" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center" Margin="12,0,0,0" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource FeatureCard}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Style="{StaticResource FeatureIcon}"><TextBlock Style="{StaticResource FeatureGlyph}" Text="&#xE768;" /></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="ترجمه‌ی زنده" />
+                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="یک ناحیه یا پنجره را انتخاب کن؛ ترجمه دقیقاً روی متن اصلی نقاشی می‌شود و با اسکرول به‌روز می‌ماند. Ctrl را نگه دار تا اصل را ببینی." />
+                        </StackPanel>
+                        <StackPanel x:Name="KbdLive" Grid.Column="2" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center" Margin="12,0,0,0" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource FeatureCard}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Style="{StaticResource FeatureIcon}"><TextBlock Style="{StaticResource FeatureGlyph}" Text="&#xE82D;" /></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="معنی کلمه" />
+                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="موس را روی یک کلمه بگذار و میان‌بر را بزن: تلفظ، معنی فارسی و تعریف انگلیسی. برای کپی متن بدون ترجمه هم میان‌بر جدا دارد." />
+                        </StackPanel>
+                        <StackPanel x:Name="KbdWord" Grid.Column="2" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center" Margin="12,0,0,0" />
+                    </Grid>
+                </Border>
+
+                <!-- Sample text: live-mode demo target -->
+                <Border Style="{StaticResource FeatureCard}" Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource Divider}">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,8">
+                            <TextBlock Style="{StaticResource MutedLabel}" Text="نمونه — همین‌جا امتحان کن" />
+                            <Button x:Name="TryLiveButton" Style="{StaticResource AccentButton}" Padding="12,5" FontSize="12.5" HorizontalAlignment="Right"
+                                    Content="ترجمه‌ی زنده روی همین پنجره" Click="OnTryLive" />
+                        </Grid>
+                        <TextBlock x:Name="SampleText" FlowDirection="LeftToRight" TextAlignment="Left" TextWrapping="Wrap"
+                                   FontFamily="Segoe UI" FontSize="14" Foreground="{DynamicResource Text}" LineHeight="24"
+                                   Text="Live translation paints Persian text directly over the original, sampling the page's own colors so it looks native. Scroll, click, keep working — the overlay follows along. Hold Ctrl at any time to peek at the source." />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Footer -->
+            <Grid Grid.Row="2" Margin="28,10,28,24">
+                <CheckBox x:Name="StartupCheck" Content="اجرا هنگام روشن شدن ویندوز" HorizontalAlignment="Left" Margin="0" />
+                <Button Style="{StaticResource AccentButton}" Content="شروع کن" Width="120" HorizontalAlignment="Right" Click="OnStart" />
+            </Grid>
+        </Grid>
+        </Grid>
+    </Border>
+</Window>
