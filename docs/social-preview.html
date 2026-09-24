@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: 'Vazirmatn';
+    src: url('../src/ScreenTranslator/Assets/Fonts/Vazirmatn-Medium.ttf') format('truetype');
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: 'Vazirmatn';
+    src: url('../src/ScreenTranslator/Assets/Fonts/Vazirmatn-Bold.ttf') format('truetype');
+    font-weight: 700;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 640px; overflow: hidden; }
+  body {
+    background: #171214;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #FAF4F0;
+    position: relative;
+  }
+  .bloom { position: absolute; border-radius: 50%; filter: blur(90px); }
+  .b1 { width: 760px; height: 620px; right: -160px; top: -240px;
+        background: radial-gradient(circle, rgba(255,111,158,.55) 0%, rgba(255,122,77,.38) 45%, rgba(255,122,77,0) 72%); }
+  .b2 { width: 700px; height: 560px; left: -200px; bottom: -260px;
+        background: radial-gradient(circle, rgba(255,181,71,.42) 0%, rgba(255,181,71,.16) 45%, rgba(255,181,71,0) 72%); }
+  .wrap { position: relative; height: 100%; display: flex; align-items: center; gap: 56px; padding: 0 76px; }
+  .left { flex: 1; }
+  .logo { width: 104px; height: 104px; border-radius: 26px; display: block;
+          box-shadow: 0 18px 50px rgba(255,122,77,.38); }
+  h1 { font-size: 66px; font-weight: 700; letter-spacing: -1.5px; margin: 26px 0 0; line-height: 1; }
+  .en { font-size: 25px; line-height: 1.42; color: #F0E3DB; margin-top: 20px; max-width: 620px; }
+  .en b { color: #FFB547; font-weight: 600; }
+  .fa { font-family: 'Vazirmatn', sans-serif; direction: rtl; font-size: 21px; line-height: 1.75;
+        color: #C9B6AE; margin-top: 14px; max-width: 620px; }
+  .chips { display: flex; gap: 10px; margin-top: 30px; }
+  .chip { font-size: 16px; padding: 9px 16px; border-radius: 11px;
+          background: rgba(255,236,224,.10); border: 1px solid rgba(255,234,222,.20); color: #F3E6DE; }
+  .chip.accent { background: linear-gradient(135deg, #FF7A4D, #FFB547); border-color: transparent; color: #24140C; font-weight: 600; }
+  .right { width: 348px; flex: none; }
+  .shot { width: 348px; border-radius: 20px; display: block;
+          box-shadow: 0 40px 90px rgba(0,0,0,.62), 0 0 0 1px rgba(255,234,222,.13); }
+</style>
+</head>
+<body>
+  <div class="bloom b1"></div>
+  <div class="bloom b2"></div>
+  <div class="wrap">
+    <div class="left">
+      <img class="logo" src="../src/ScreenTranslator/Assets/logo.png" alt="" />
+      <h1>ScreenTranslator</h1>
+      <p class="en">“Circle to Search” for Windows — offline OCR plus a <b>live overlay</b> that paints the translation right over the original text.</p>
+      <p class="fa">ترجمه‌ی هر متنی روی صفحه با یک میان‌بر؛ یا ترجمه‌ی زنده‌ی یک ناحیه، درست روی خودِ متن اصلی.</p>
+      <div class="chips">
+        <span class="chip accent">Free &amp; open source</span>
+        <span class="chip">Windows 10/11</span>
+        <span class="chip">No API key</span>
+        <span class="chip">~10 MB RAM</span>
+      </div>
+    </div>
+    <div class="right">
+      <img class="shot" src="screenshots/tray.png" alt="" />
+    </div>
+  </div>
+</body>
+</html>
