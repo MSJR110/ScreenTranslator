@@ -83,7 +83,7 @@
                                         <Grid Style="{StaticResource Row}">
                                             <StackPanel>
                                                 <TextBlock Style="{StaticResource Label}" Text="{ui:L settings.uilang}" />
-                                                <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" MaxWidth="260" HorizontalAlignment="Left"
+                                                <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" MaxWidth="240" HorizontalAlignment="Left"
                                                            Text="{ui:L settings.uilang.hint}" />
                                             </StackPanel>
                                             <ComboBox x:Name="UiLangCombo" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top">
@@ -95,7 +95,7 @@
                                         <Grid Style="{StaticResource Row}">
                                             <StackPanel>
                                                 <TextBlock Style="{StaticResource Label}" Text="{ui:L settings.ocr}" />
-                                                <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" MaxWidth="260" HorizontalAlignment="Left"
+                                                <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" MaxWidth="240" HorizontalAlignment="Left"
                                                            Text="{ui:L settings.ocr.hint}" />
                                             </StackPanel>
                                             <ComboBox x:Name="OcrCombo" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" />
@@ -118,7 +118,7 @@
                                             <TextBlock Style="{StaticResource Label}" Text="{ui:L settings.popupfont}" />
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                 <TextBlock x:Name="PopupFontValue" Style="{StaticResource MutedLabel}" Width="30" TextAlignment="Center" />
-                                                <Slider x:Name="PopupFontSlider" Minimum="12" Maximum="26" TickFrequency="1" ValueChanged="OnSliderChanged" />
+                                                <Slider x:Name="PopupFontSlider" Width="150" Minimum="12" Maximum="26" TickFrequency="1" ValueChanged="OnSliderChanged" />
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
@@ -160,14 +160,14 @@
                                         <Grid Style="{StaticResource Row}">
                                             <StackPanel>
                                                 <TextBlock Style="{StaticResource Label}" Text="{ui:L settings.hk.word}" />
-                                                <TextBlock Style="{StaticResource MutedLabel}" Text="{ui:L settings.hk.word.hint}" />
+                                                <TextBlock Style="{StaticResource MutedLabel}" Text="{ui:L settings.hk.word.hint}" TextWrapping="Wrap" MaxWidth="250" HorizontalAlignment="Left" />
                                             </StackPanel>
                                             <ui:HotkeyBox x:Name="HkWord" HorizontalAlignment="Right" VerticalAlignment="Top" />
                                         </Grid>
                                         <Grid Style="{StaticResource Row}">
                                             <StackPanel>
                                                 <TextBlock Style="{StaticResource Label}" Text="{ui:L settings.hk.copy}" />
-                                                <TextBlock Style="{StaticResource MutedLabel}" Text="{ui:L settings.hk.copy.hint}" />
+                                                <TextBlock Style="{StaticResource MutedLabel}" Text="{ui:L settings.hk.copy.hint}" TextWrapping="Wrap" MaxWidth="250" HorizontalAlignment="Left" />
                                             </StackPanel>
                                             <ui:HotkeyBox x:Name="HkCopy" HorizontalAlignment="Right" VerticalAlignment="Top" />
                                         </Grid>
@@ -209,25 +209,25 @@
                                         <Grid Style="{StaticResource Row}">
                                             <StackPanel>
                                                 <TextBlock Style="{StaticResource Label}" Text="{ui:L settings.live.interval}" />
-                                                <TextBlock Style="{StaticResource MutedLabel}" Text="{ui:L settings.live.interval.hint}" />
+                                                <TextBlock Style="{StaticResource MutedLabel}" Text="{ui:L settings.live.interval.hint}" TextWrapping="Wrap" MaxWidth="230" HorizontalAlignment="Left" />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                 <TextBlock x:Name="IntervalValue" Style="{StaticResource MutedLabel}" Width="52" TextAlignment="Center" />
-                                                <Slider x:Name="IntervalSlider" Minimum="300" Maximum="2000" TickFrequency="100" ValueChanged="OnSliderChanged" />
+                                                <Slider x:Name="IntervalSlider" Width="150" Minimum="300" Maximum="2000" TickFrequency="100" ValueChanged="OnSliderChanged" />
                                             </StackPanel>
                                         </Grid>
                                         <Grid Style="{StaticResource Row}">
                                             <TextBlock Style="{StaticResource Label}" Text="{ui:L settings.live.opacity}" />
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                 <TextBlock x:Name="OpacityValue" Style="{StaticResource MutedLabel}" Width="40" TextAlignment="Center" />
-                                                <Slider x:Name="OpacitySlider" Minimum="50" Maximum="100" TickFrequency="2" ValueChanged="OnSliderChanged" />
+                                                <Slider x:Name="OpacitySlider" Width="150" Minimum="50" Maximum="100" TickFrequency="2" ValueChanged="OnSliderChanged" />
                                             </StackPanel>
                                         </Grid>
                                         <Grid Style="{StaticResource Row}">
                                             <TextBlock Style="{StaticResource Label}" Text="{ui:L settings.live.fontscale}" />
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                 <TextBlock x:Name="FontScaleValue" Style="{StaticResource MutedLabel}" Width="40" TextAlignment="Center" />
-                                                <Slider x:Name="FontScaleSlider" Minimum="70" Maximum="140" TickFrequency="5" ValueChanged="OnSliderChanged" />
+                                                <Slider x:Name="FontScaleSlider" Width="150" Minimum="70" Maximum="140" TickFrequency="5" ValueChanged="OnSliderChanged" />
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>

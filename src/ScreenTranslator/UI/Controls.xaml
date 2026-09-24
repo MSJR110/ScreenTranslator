@@ -179,8 +179,8 @@
         <Setter Property="Background" Value="{DynamicResource InputBg}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Border}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="10,6" />
-        <Setter Property="Height" Value="34" />
+        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="MinHeight" Value="34" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Accent}" />
         <Setter Property="Template">
@@ -207,8 +207,8 @@
         <Setter Property="Background" Value="{DynamicResource InputBg}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Border}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="10,6" />
-        <Setter Property="Height" Value="34" />
+        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="MinHeight" Value="34" />
         <Setter Property="PasswordChar" Value="•" />
         <Setter Property="Template">
             <Setter.Value>

@@ -13,7 +13,7 @@
     <RootNamespace>ScreenTranslator</RootNamespace>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
-    <Version>0.7.0</Version>
+    <Version>0.7.1</Version>
     <Company>ScreenTranslator</Company>
     <Product>ScreenTranslator</Product>
     <NoWarn>$(NoWarn);WFO0003</NoWarn>

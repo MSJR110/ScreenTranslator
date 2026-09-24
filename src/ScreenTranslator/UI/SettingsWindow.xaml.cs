@@ -119,6 +119,7 @@ public partial class SettingsWindow : Window
             case "hotkeys": TabHotkeys.IsChecked = true; break;
             case "live": TabLive.IsChecked = true; break;
             case "engine": TabEngine.IsChecked = true; EngineClaude.IsChecked = true; break;
+            case "openai": TabEngine.IsChecked = true; EngineOpenAi.IsChecked = true; break;
             case "about": TabAbout.IsChecked = true; break;
         }
     }
