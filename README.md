@@ -6,6 +6,7 @@
 
 **“Circle to Search” for Windows.** Read any text on your screen with a shortcut — or translate a region **live**, so the page looks like it was written in your language from the start.
 
+[![build](https://github.com/MSJR110/ScreenTranslator/actions/workflows/build.yml/badge.svg)](https://github.com/MSJR110/ScreenTranslator/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Windows 10/11](https://img.shields.io/badge/Windows-10%202004%2B-0078D4?logo=windows&logoColor=white)](#install)
 [![.NET 10](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)](#build-from-source)

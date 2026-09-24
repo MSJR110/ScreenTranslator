@@ -6,6 +6,7 @@
 
 «Circle to Search» برای ویندوز — هر متنی روی صفحه را با یک میان‌بر بخوان و ترجمه کن؛ یا یک ناحیه را **زنده** ترجمه کن تا صفحه انگار از اول فارسی نوشته شده باشد.
 
+[![build](https://github.com/MSJR110/ScreenTranslator/actions/workflows/build.yml/badge.svg)](https://github.com/MSJR110/ScreenTranslator/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Windows 10/11](https://img.shields.io/badge/Windows-10%202004%2B-0078D4?logo=windows&logoColor=white)](#نصب)
 [![.NET 10](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)](#ساخت-از-سورس)
