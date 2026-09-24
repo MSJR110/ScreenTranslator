@@ -1,7 +1,8 @@
 <Window x:Class="ScreenTranslator.UI.HistoryWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="تاریخچه‌ی ترجمه‌ها"
+        xmlns:ui="clr-namespace:ScreenTranslator.UI"
+        Title="{ui:L history.title}"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
         Background="Transparent"
@@ -11,7 +12,7 @@
         Height="640"
         MinWidth="460"
         MinHeight="380"
-        FlowDirection="RightToLeft"
+        FlowDirection="{ui:Flow}"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         KeyDown="OnKeyDown">
@@ -30,19 +31,19 @@
             <Grid Grid.Row="0" Background="#01000000" MouseLeftButtonDown="OnDrag" Margin="20,16,12,8">
                 <StackPanel Orientation="Horizontal">
                     <Border Style="{StaticResource IconTile}" Width="34" Height="34" CornerRadius="10" Margin="0,0,12,0" VerticalAlignment="Center"><TextBlock Style="{StaticResource IconTileGlyph}" Text="&#xE81C;" FontSize="15" /></Border>
-                    <TextBlock Style="{StaticResource Label}" FontSize="16" FontWeight="SemiBold" Text="تاریخچه‌ی ترجمه‌ها" />
+                    <TextBlock Style="{StaticResource Label}" FontSize="16" FontWeight="SemiBold" Text="{ui:L history.title}" />
                     <TextBlock x:Name="CountText" Style="{StaticResource MutedLabel}" Margin="10,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Style="{StaticResource IconButton}" Content="&#xE74D;" ToolTip="پاک کردن همه" Click="OnClearAll" />
-                    <Button Style="{StaticResource IconButton}" Content="&#xE711;" ToolTip="بستن (Esc)" Click="OnClose" />
+                    <Button Style="{StaticResource IconButton}" Content="&#xE74D;" ToolTip="{ui:L history.clear}" Click="OnClearAll" />
+                    <Button Style="{StaticResource IconButton}" Content="&#xE711;" ToolTip="{ui:L common.close.esc}" Click="OnClose" />
                 </StackPanel>
             </Grid>
 
             <!-- Search -->
             <Grid Grid.Row="1" Margin="20,4,20,10">
                 <TextBox x:Name="SearchBox" Style="{StaticResource Input}" TextChanged="OnSearch" />
-                <TextBlock x:Name="SearchHint" Style="{StaticResource MutedLabel}" Text="جستجو در متن اصلی یا ترجمه…" Margin="12,0" VerticalAlignment="Center" IsHitTestVisible="False" />
+                <TextBlock x:Name="SearchHint" Style="{StaticResource MutedLabel}" Text="{ui:L history.search}" Margin="12,0" VerticalAlignment="Center" IsHitTestVisible="False" />
             </Grid>
 
             <!-- List -->
@@ -59,18 +60,18 @@
                                 <Grid Grid.Row="0" Margin="0,0,0,6">
                                     <TextBlock Style="{StaticResource MutedLabel}" Text="{Binding Meta}" />
                                     <Button Style="{StaticResource IconButton}" Content="&#xE8C8;" HorizontalAlignment="Right" Padding="4,0"
-                                            ToolTip="کپی ترجمه" Click="OnCopyItem" Tag="{Binding}" />
+                                            ToolTip="{ui:L history.copy}" Click="OnCopyItem" Tag="{Binding}" />
                                 </Grid>
-                                <TextBlock Grid.Row="1" Style="{StaticResource Label}" Text="{Binding Translation}" TextWrapping="Wrap" MaxHeight="72" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Row="1" Style="{StaticResource Label}" Text="{Binding Translation}" FlowDirection="{Binding Direction}" TextAlignment="{Binding Align}" TextWrapping="Wrap" MaxHeight="72" TextTrimming="CharacterEllipsis" />
                                 <TextBlock Grid.Row="2" Style="{StaticResource MutedLabel}" Text="{Binding Source}" TextWrapping="Wrap" MaxHeight="40"
-                                           TextTrimming="CharacterEllipsis" FlowDirection="LeftToRight" TextAlignment="Left" Margin="0,4,0,0" />
+                                           TextTrimming="CharacterEllipsis" FlowDirection="{Binding SourceDirection}" TextAlignment="{Binding SourceAlign}" Margin="0,4,0,0" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <StackPanel x:Name="Empty" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
                     <Border Style="{StaticResource IconTile}" Width="64" Height="64" CornerRadius="18" HorizontalAlignment="Center"><TextBlock Style="{StaticResource IconTileGlyph}" Text="&#xE81C;" FontSize="28" /></Border>
-                    <TextBlock Style="{StaticResource MutedLabel}" FontSize="13.5" Margin="0,10,0,0" Text="هنوز چیزی ترجمه نکرده‌ای" />
+                    <TextBlock Style="{StaticResource MutedLabel}" FontSize="13.5" Margin="0,10,0,0" Text="{ui:L history.empty}" />
                 </StackPanel>
             </Grid>
         </Grid>

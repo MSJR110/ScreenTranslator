@@ -45,8 +45,8 @@ public partial class SettingsWindow : Window
         };
 
         var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.3";
-        VersionText.Text = "نسخه " + version;
-        AboutVersion.Text = "نسخه " + version;
+        VersionText.Text = Loc.T("settings.version", version);
+        AboutVersion.Text = VersionText.Text;
         LogoImage.Source = AppIcon.Bitmap;
         AboutLogo.Source = AppIcon.Bitmap;
 
@@ -70,7 +70,11 @@ public partial class SettingsWindow : Window
             TargetCombo.Items.Add(new ComboBoxItem { Content = name, Tag = tag });
         TargetCombo.SelectedIndex = Math.Max(0, Array.FindIndex(TargetLanguages, l => l.tag == _settings.TargetLanguage));
 
-        OcrCombo.Items.Add(new ComboBoxItem { Content = "خودکار (زبان ویندوز)", Tag = "" });
+        foreach (ComboBoxItem item in UiLangCombo.Items)
+            if ((string)item.Tag == _settings.UiLanguage) UiLangCombo.SelectedItem = item;
+        if (UiLangCombo.SelectedItem is null) UiLangCombo.SelectedIndex = 0;
+
+        OcrCombo.Items.Add(new ComboBoxItem { Content = Loc.T("settings.ocr.auto"), Tag = "" });
         foreach (var lang in OcrService.AvailableLanguages)
             OcrCombo.Items.Add(new ComboBoxItem { Content = lang, Tag = lang });
         OcrCombo.SelectedIndex = 0;
@@ -136,11 +140,9 @@ public partial class SettingsWindow : Window
         ClaudePanel.Visibility = claude ? Visibility.Visible : Visibility.Collapsed;
         OpenAiPanel.Visibility = openai ? Visibility.Visible : Visibility.Collapsed;
         TestPanel.Visibility = claude || openai ? Visibility.Visible : Visibility.Collapsed;
-        EngineHint.Text = claude
-            ? "کیفیت بالاتر برای متن‌های ادبی و فنی. اگر در دسترس نبود، خودکار به Google برمی‌گردد."
-            : openai
-                ? "هر سرویسی با API سازگار با OpenAI. اگر در دسترس نبود، خودکار به Google برمی‌گردد."
-                : "سریع و رایگان، بدون نیاز به کلید. برای ترجمه‌ی زنده هم مناسب است.";
+        EngineHint.Text = Loc.T(claude ? "settings.engine.hint.claude"
+                              : openai ? "settings.engine.hint.openai"
+                              : "settings.engine.hint.google");
         TestResult.Text = "";
     }
 
@@ -150,12 +152,12 @@ public partial class SettingsWindow : Window
         var engine = TranslatorFactory.CreatePrimary(temp);
         if (engine is null)
         {
-            TestResult.Text = "کلید یا مدل وارد نشده.";
+            TestResult.Text = Loc.T("settings.test.missing");
             return;
         }
 
         TestButton.IsEnabled = false;
-        TestResult.Text = "در حال تست…";
+        TestResult.Text = Loc.T("settings.test.running");
         try
         {
             var r = await engine.TranslateAsync("Hello! This is a quick connection test.", temp.TargetLanguage);
@@ -191,6 +193,7 @@ public partial class SettingsWindow : Window
     private AppSettings SnapshotToSettings(AppSettings s)
     {
         s.Theme = (string)((ComboBoxItem)ThemeCombo.SelectedItem).Tag;
+        s.UiLanguage = (string)((ComboBoxItem)UiLangCombo.SelectedItem).Tag;
         s.PopupFontSize = Math.Round(PopupFontSlider.Value);
         s.LiveIntervalMs = (int)IntervalSlider.Value;
         s.OverlayOpacity = OpacitySlider.Value / 100.0;
@@ -226,7 +229,7 @@ public partial class SettingsWindow : Window
         if (chords.Distinct().Count() != chords.Count)
         {
             TabHotkeys.IsChecked = true;
-            MessageBox.Show(this, "دو میان‌بر یکسان انتخاب شده‌اند.", "ScreenTranslator", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this, Loc.T("settings.hotkey.duplicate"), "ScreenTranslator", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
@@ -237,6 +240,7 @@ public partial class SettingsWindow : Window
 
         _settings.Save();
         Theme.Apply(_settings.Theme);
+        Loc.Use(_settings.UiLanguage);        // windows opened from now on use the new language
 
         SavedHint.BeginAnimation(OpacityProperty, new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(1600)) { BeginTime = TimeSpan.FromMilliseconds(300) });
     }

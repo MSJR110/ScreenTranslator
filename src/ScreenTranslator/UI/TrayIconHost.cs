@@ -85,7 +85,7 @@ public sealed class TrayIconHost : IDisposable
     {
         _live = live;
         _icon.Icon = live ? _liveIcon : _idleIcon;
-        _icon.Text = live ? "ScreenTranslator — ترجمه‌ی زنده فعال" : "ScreenTranslator — Ctrl+Alt+T";
+        _icon.Text = live ? Loc.T("tray.tooltip.live") : "ScreenTranslator — Ctrl+Alt+T";
     }
 
     public void ShowBalloon(string title, string text, ToolTipIcon icon = ToolTipIcon.Info)

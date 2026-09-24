@@ -72,9 +72,9 @@ public partial class RegionSelectorWindow : Window
 
         (HintText.Text, HintIcon.Text, HintIcon.Foreground) = purpose switch
         {
-            RegionSelector.Purpose.Live => ("ناحیه‌ای را که می‌خواهی زنده ترجمه شود بکش  ·  Esc برای لغو", "", Theme.Brush("Success")),
-            RegionSelector.Purpose.Copy => ("ناحیه‌ای را بکش تا متنش کپی شود  ·  Esc برای لغو", "", Theme.Brush("Accent")),
-            _ => ("ناحیه‌ی موردنظر را بکش  ·  Esc یا راست‌کلیک برای لغو", "", Theme.Brush("Accent")),
+            RegionSelector.Purpose.Live => (Loc.T("select.live"), "", Theme.Brush("Success")),
+            RegionSelector.Purpose.Copy => (Loc.T("select.copy"), "", Theme.Brush("Accent")),
+            _ => (Loc.T("select.translate"), "", Theme.Brush("Accent")),
         };
         FrameGlow.Color = ((SolidColorBrush)Theme.Brush("Accent")).Color;
         Hint.Visibility = screen.Primary ? Visibility.Visible : Visibility.Collapsed;

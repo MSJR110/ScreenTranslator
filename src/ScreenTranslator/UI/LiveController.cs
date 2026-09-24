@@ -49,6 +49,7 @@ public sealed class LiveController : IDisposable
         {
             BoxOpacity = _settings.OverlayOpacity,
             FontScale = _settings.OverlayFontScale,
+            TargetLanguage = _settings.TargetLanguage,
         };
 
         _pill = new LivePillWindow(canReselect);
@@ -81,7 +82,7 @@ public sealed class LiveController : IDisposable
             _pill.DockTo(r);
         }
         _pill.SetState(LivePillState.Running);
-        _pill.SetStats("در انتظار متن…");
+        _pill.SetStats(Loc.T("live.waiting.text"));
 
         _session.Start();
     }
@@ -130,8 +131,8 @@ public sealed class LiveController : IDisposable
         _overlay.Apply(frame);
         _pill.SetState(_session is { IsPaused: true } ? LivePillState.Paused : LivePillState.Running);
 
-        var parts = new List<string> { $"{frame.Blocks.Count} بلوک", $"OCR {frame.OcrTime.TotalMilliseconds:0}ms" };
-        parts.Add(frame.NetworkRequests == 0 ? "از کش" : $"ترجمه {frame.TranslateTime.TotalMilliseconds:0}ms");
+        var parts = new List<string> { Loc.T("live.blocks", frame.Blocks.Count), $"OCR {frame.OcrTime.TotalMilliseconds:0}ms" };
+        parts.Add(frame.NetworkRequests == 0 ? Loc.T("common.cached") : Loc.T("live.translate.ms", frame.TranslateTime.TotalMilliseconds.ToString("0")));
         _pill.SetStats(string.Join("  ·  ", parts));
     }
 

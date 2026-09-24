@@ -1,6 +1,7 @@
 <Window x:Class="ScreenTranslator.UI.ResultWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:ScreenTranslator.UI"
         Title="Translation"
         WindowStyle="None"
         ResizeMode="CanResize"
@@ -34,7 +35,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Header (drag handle): status chip on the right, window buttons on the left -->
-                <Grid Grid.Row="0" Background="#01000000" MouseLeftButtonDown="OnHeaderDrag" Margin="10,10,14,4" FlowDirection="RightToLeft">
+                <Grid Grid.Row="0" Background="#01000000" MouseLeftButtonDown="OnHeaderDrag" Margin="10,10,14,4" FlowDirection="{ui:Flow}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
@@ -46,13 +47,13 @@
                             <Grid Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center">
                                 <Ellipse x:Name="StatusDot" Fill="{DynamicResource Accent}" />
                             </Grid>
-                            <TextBlock x:Name="StatusText" Style="{StaticResource MutedLabel}" Text="در حال آماده‌سازی…" />
+                            <TextBlock x:Name="StatusText" Style="{StaticResource MutedLabel}" Text="{ui:L result.preparing}" />
                         </StackPanel>
                     </Border>
 
                     <Button x:Name="PinButton" Grid.Column="1" Style="{StaticResource IconButton}" Content="&#xE718;"
-                            ToolTip="سنجاق: با کلیک بیرون بسته نشود" Click="OnPinClick" Margin="0,0,2,0" />
-                    <Button Grid.Column="2" Style="{StaticResource IconButton}" Content="&#xE711;" ToolTip="بستن (Esc)" Click="OnCloseClick" />
+                            ToolTip="{ui:L common.pin}" Click="OnPinClick" Margin="0,0,2,0" />
+                    <Button Grid.Column="2" Style="{StaticResource IconButton}" Content="&#xE711;" ToolTip="{ui:L common.close.esc}" Click="OnCloseClick" />
                 </Grid>
 
                 <!-- Original: quiet inset card -->
@@ -64,7 +65,7 @@
                 </Border>
 
                 <!-- Translation: large text with a gradient rail on its reading side -->
-                <Grid Grid.Row="2" Margin="18,10,18,8" FlowDirection="RightToLeft">
+                <Grid x:Name="TransGrid" Grid.Row="2" Margin="18,10,18,8" FlowDirection="RightToLeft">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -85,13 +86,13 @@
                 </Grid>
 
                 <!-- Footer -->
-                <Grid Grid.Row="3" Margin="16,6,16,16" FlowDirection="RightToLeft">
+                <Grid Grid.Row="3" Margin="16,6,16,16" FlowDirection="{ui:Flow}">
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="CopyButton" Style="{StaticResource AccentButton}" Content="کپی ترجمه" Click="OnCopyTranslation" Margin="0,0,8,0" />
-                        <Button Style="{StaticResource FlatButton}" Content="کپی متن اصلی" Click="OnCopyOriginal" Margin="0,0,8,0" />
+                        <Button x:Name="CopyButton" Style="{StaticResource AccentButton}" Content="{ui:L result.copy.translation}" Click="OnCopyTranslation" Margin="0,0,8,0" />
+                        <Button Style="{StaticResource FlatButton}" Content="{ui:L result.copy.original}" Click="OnCopyOriginal" Margin="0,0,8,0" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="SpeakButton" Style="{StaticResource IconButton}" Content="&#xE767;" FontSize="15" ToolTip="خواندن متن اصلی" Click="OnSpeak" />
+                        <Button x:Name="SpeakButton" Style="{StaticResource IconButton}" Content="&#xE767;" FontSize="15" ToolTip="{ui:L result.speak}" Click="OnSpeak" />
                     </StackPanel>
                 </Grid>
             </Grid>

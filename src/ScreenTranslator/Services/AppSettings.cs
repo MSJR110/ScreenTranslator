@@ -31,6 +31,9 @@ public sealed class AppSettings
     // Appearance: "system" | "dark" | "light"
     public string Theme { get; set; } = "system";
 
+    /// <summary>Interface language: "auto" (follow Windows) | "fa" | "en".</summary>
+    public string UiLanguage { get; set; } = "auto";
+
     /// <summary>Popup translation font size in DIPs.</summary>
     public double PopupFontSize { get; set; } = 16;
 

@@ -67,22 +67,22 @@ public partial class LivePillWindow : Window
     {
         var (brushKey, title) = state switch
         {
-            LivePillState.Paused => ("Muted", "مکث"),
-            LivePillState.Working => ("Accent", "در حال ترجمه…"),
-            LivePillState.Error => ("Error", "خطا"),
-            LivePillState.Waiting => ("Muted", "پنجره پیدا نشد"),
-            _ => ("Success", "ترجمه‌ی زنده"),
+            LivePillState.Paused => ("Muted", "live.pause"),
+            LivePillState.Working => ("Accent", "common.translating"),
+            LivePillState.Error => ("Error", "live.state.error"),
+            LivePillState.Waiting => ("Muted", "live.state.waiting"),
+            _ => ("Success", "live.title"),
         };
         Dot.Fill = Theme.Brush(brushKey);
         Pulse.Fill = Theme.Brush(brushKey);
-        TitleText.Text = title;
+        TitleText.Text = Loc.T(title);
     }
 
     private void OnPause(object sender, RoutedEventArgs e)
     {
         _paused = !_paused;
         PauseButton.Content = _paused ? "" : "";
-        PauseButton.ToolTip = _paused ? "ادامه" : "مکث";
+        PauseButton.ToolTip = Loc.T(_paused ? "live.resume" : "live.pause");
         PauseToggled?.Invoke();
     }
 

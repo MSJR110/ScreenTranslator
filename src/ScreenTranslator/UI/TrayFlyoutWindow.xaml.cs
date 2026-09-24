@@ -59,8 +59,8 @@ public partial class TrayFlyoutWindow : Window
     {
         LiveChoices.Visibility = live ? Visibility.Collapsed : Visibility.Visible;
         LiveStop.Visibility = live ? Visibility.Visible : Visibility.Collapsed;
-        LiveHint.Text = live ? "در حال اجرا" : "روی متن اصلی، همان‌جا";
-        StatusText.Text = live ? "ترجمه‌ی زنده فعال" : "آماده · در پس‌زمینه";
+        LiveHint.Text = Loc.T(live ? "tray.live.running" : "tray.live.hint");
+        StatusText.Text = Loc.T(live ? "tray.status.live" : "tray.status.ready");
         StatusDot.Fill = Theme.Brush(live ? "Success" : "Muted");
 
         if (live)

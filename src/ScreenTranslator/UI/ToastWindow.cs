@@ -50,7 +50,7 @@ public sealed class ToastWindow : Window
         SizeToContent = SizeToContent.WidthAndHeight;
         UseLayoutRounding = true;
         TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
-        FlowDirection = FlowDirection.RightToLeft;
+        FlowDirection = Loc.Flow;
 
         _icon = new TextBlock
         {

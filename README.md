@@ -37,11 +37,12 @@ Press a shortcut, drag over anything on screen — a video, a PDF, a game, an im
 - **Selected-text mode** — translate what you've highlighted in any app without OCR at all (the most accurate path).
 - **OCR to clipboard** — grab text out of an image or a video frame without translating it.
 - **11 target languages** — Persian (default), English, Arabic, Turkish, German, French, Spanish, Russian, Italian, Japanese, Chinese.
+- **Bilingual interface** — English and Persian, mirrored right-to-left where it belongs; the translated text always reads in its own direction.
 - **Windows 11 look** — acrylic surfaces, rounded corners, dark/light following the system, per-monitor DPI, multi-monitor aware.
 - **Light** — 0% CPU when idle, ~10 MB RAM, single ~34 MB executable, no background services.
 - **Private by default** — history stays on your machine, API keys are encrypted with DPAPI, nothing is sent anywhere except the translation request itself.
 
-> **Note on language:** the app's own interface is in Persian (the project started as an English → Persian reading tool), while the *target* language of translation is configurable. Contributions that add UI localization are very welcome.
+> **Interface language:** English and Persian, chosen automatically from your Windows display language and switchable in Settings → General. Contributions that add more interface languages are very welcome.
 
 ## Shortcuts
 
@@ -62,13 +63,13 @@ All of them are rebindable in Settings → Shortcuts.
 Clicking the tray icon opens a glass flyout with the four main actions, live mode (region / window / full screen), history, settings, and the getting-started guide.
 
 <div align="center">
-<img src="docs/screenshots/tray.png" alt="Tray flyout" width="290" />
-<img src="docs/screenshots/popup.png" alt="Translation popup" width="460" />
+<img src="docs/screenshots/en-tray.png" alt="Tray flyout" width="290" />
+<img src="docs/screenshots/en-popup.png" alt="Translation popup" width="460" />
 </div>
 
 <div align="center">
-<img src="docs/screenshots/word.png" alt="Word lookup card" width="330" />
-<img src="docs/screenshots/settings.png" alt="Settings window" width="420" />
+<img src="docs/screenshots/en-word.png" alt="Word lookup card" width="330" />
+<img src="docs/screenshots/en-settings.png" alt="Settings window" width="420" />
 </div>
 
 ## Install

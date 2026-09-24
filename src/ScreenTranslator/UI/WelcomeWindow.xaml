@@ -1,6 +1,7 @@
 <Window x:Class="ScreenTranslator.UI.WelcomeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:ScreenTranslator.UI"
         Title="ScreenTranslator"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -9,7 +10,7 @@
         WindowStartupLocation="CenterScreen"
         Width="640"
         SizeToContent="Height"
-        FlowDirection="RightToLeft"
+        FlowDirection="{ui:Flow}"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         KeyDown="OnKeyDown">
@@ -48,12 +49,12 @@
                 <StackPanel Orientation="Horizontal">
                     <Image x:Name="Logo" Width="68" Height="68" Margin="0,0,18,0" VerticalAlignment="Center"><Image.Effect><DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.35" Color="#FF7A4D" /></Image.Effect></Image>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource GradientTitle}" FontSize="24" Text="خوش آمدی به ScreenTranslator" />
+                        <TextBlock Style="{StaticResource GradientTitle}" FontSize="24" Text="{ui:L welcome.title}" />
                         <TextBlock Style="{StaticResource MutedLabel}" FontSize="13.5" Margin="0,4,0,0" TextWrapping="Wrap" MaxWidth="470"
-                                   Text="هر متنی روی صفحه را بخوان و ترجمه کن — بدون کپی، بدون سوییچ پنجره. برنامه در کنار ساعت ویندوز می‌نشیند و فقط با میان‌بر بیدار می‌شود." />
+                                   Text="{ui:L welcome.subtitle}" />
                     </StackPanel>
                 </StackPanel>
-                <Button Style="{StaticResource IconButton}" Content="&#xE711;" HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnStart" ToolTip="بستن" />
+                <Button Style="{StaticResource IconButton}" Content="&#xE711;" HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnStart" ToolTip="{ui:L common.close}" />
             </Grid>
 
             <!-- Features -->
@@ -67,8 +68,8 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" Style="{StaticResource FeatureIcon}"><TextBlock Style="{StaticResource FeatureGlyph}" Text="&#xE7A8;" /></Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="ترجمه‌ی ناحیه" />
-                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="میان‌بر را بزن، دور متن بکش، ترجمه را کنارش ببین. برای عکس، ویدئو، بازی و PDF." />
+                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="{ui:L welcome.region.title}" />
+                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="{ui:L welcome.region.body}" />
                         </StackPanel>
                         <StackPanel x:Name="KbdRegion" Grid.Column="2" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center" Margin="12,0,0,0" />
                     </Grid>
@@ -83,8 +84,8 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" Style="{StaticResource FeatureIcon}"><TextBlock Style="{StaticResource FeatureGlyph}" Text="&#xE8D2;" /></Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="ترجمه‌ی متن انتخاب‌شده" />
-                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="متن را در هر برنامه‌ای انتخاب کن و میان‌بر را بزن. بدون OCR، دقیق‌ترین حالت." />
+                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="{ui:L welcome.selection.title}" />
+                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="{ui:L welcome.selection.body}" />
                         </StackPanel>
                         <StackPanel x:Name="KbdSelection" Grid.Column="2" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center" Margin="12,0,0,0" />
                     </Grid>
@@ -99,8 +100,8 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" Style="{StaticResource FeatureIcon}"><TextBlock Style="{StaticResource FeatureGlyph}" Text="&#xE768;" /></Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="ترجمه‌ی زنده" />
-                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="یک ناحیه یا پنجره را انتخاب کن؛ ترجمه دقیقاً روی متن اصلی نقاشی می‌شود و با اسکرول به‌روز می‌ماند. Ctrl را نگه دار تا اصل را ببینی." />
+                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="{ui:L welcome.live.title}" />
+                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="{ui:L welcome.live.body}" />
                         </StackPanel>
                         <StackPanel x:Name="KbdLive" Grid.Column="2" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center" Margin="12,0,0,0" />
                     </Grid>
@@ -115,8 +116,8 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" Style="{StaticResource FeatureIcon}"><TextBlock Style="{StaticResource FeatureGlyph}" Text="&#xE82D;" /></Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="معنی کلمه" />
-                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="موس را روی یک کلمه بگذار و میان‌بر را بزن: تلفظ، معنی فارسی و تعریف انگلیسی. برای کپی متن بدون ترجمه هم میان‌بر جدا دارد." />
+                            <TextBlock Style="{StaticResource Label}" FontWeight="SemiBold" Text="{ui:L welcome.word.title}" />
+                            <TextBlock Style="{StaticResource MutedLabel}" TextWrapping="Wrap" Text="{ui:L welcome.word.body}" />
                         </StackPanel>
                         <StackPanel x:Name="KbdWord" Grid.Column="2" Orientation="Horizontal" FlowDirection="LeftToRight" VerticalAlignment="Center" Margin="12,0,0,0" />
                     </Grid>
@@ -126,9 +127,9 @@
                 <Border Style="{StaticResource FeatureCard}" Background="{DynamicResource InputBg}" BorderBrush="{DynamicResource Divider}">
                     <StackPanel>
                         <Grid Margin="0,0,0,8">
-                            <TextBlock Style="{StaticResource MutedLabel}" Text="نمونه — همین‌جا امتحان کن" />
+                            <TextBlock Style="{StaticResource MutedLabel}" Text="{ui:L welcome.sample.label}" />
                             <Button x:Name="TryLiveButton" Style="{StaticResource AccentButton}" Padding="12,5" FontSize="12.5" HorizontalAlignment="Right"
-                                    Content="ترجمه‌ی زنده روی همین پنجره" Click="OnTryLive" />
+                                    Content="{ui:L welcome.sample.button}" Click="OnTryLive" />
                         </Grid>
                         <TextBlock x:Name="SampleText" FlowDirection="LeftToRight" TextAlignment="Left" TextWrapping="Wrap"
                                    FontFamily="Segoe UI" FontSize="14" Foreground="{DynamicResource Text}" LineHeight="24"
@@ -139,8 +140,8 @@
 
             <!-- Footer -->
             <Grid Grid.Row="2" Margin="28,10,28,24">
-                <CheckBox x:Name="StartupCheck" Content="اجرا هنگام روشن شدن ویندوز" HorizontalAlignment="Left" Margin="0" />
-                <Button Style="{StaticResource AccentButton}" Content="شروع کن" Width="120" HorizontalAlignment="Right" Click="OnStart" />
+                <CheckBox x:Name="StartupCheck" Content="{ui:L welcome.startup}" HorizontalAlignment="Left" Margin="0" />
+                <Button Style="{StaticResource AccentButton}" Content="{ui:L welcome.start}" Width="120" HorizontalAlignment="Right" Click="OnStart" />
             </Grid>
         </Grid>
         </Grid>

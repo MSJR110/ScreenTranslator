@@ -17,6 +17,9 @@ public partial class ResultWindow : Window
     private bool _acrylic;
     private string _sourceLanguage = "en";
 
+    /// <summary>Language the text is translated into — decides which way the translation reads.</summary>
+    public string TargetLanguage { get; init; } = "fa";
+
     private readonly Size? _remembered;
 
     /// <summary>Raised on close with the size the user dragged the popup to (null when never resized).</summary>
@@ -58,6 +61,15 @@ public partial class ResultWindow : Window
 
     public void SetStatus(string text) => StatusText.Text = text;
 
+    /// <summary>The translated text reads in its own direction, whatever language the interface is in.</summary>
+    private void ApplyTargetDirection()
+    {
+        bool rtl = Loc.IsRtl(TargetLanguage);
+        TransGrid.FlowDirection = rtl ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        TranslationBox.FlowDirection = TransGrid.FlowDirection;
+        TranslationBox.TextAlignment = rtl ? TextAlignment.Right : TextAlignment.Left;
+    }
+
     public void SetOriginal(string text)
     {
         OriginalBox.Text = text;
@@ -69,14 +81,15 @@ public partial class ResultWindow : Window
     public void SetTranslation(TranslationResult result, TimeSpan? ocrElapsed = null)
     {
         _sourceLanguage = result.SourceLanguage;
+        ApplyTargetDirection();
         Loading.Visibility = Visibility.Collapsed;
         TranslationBox.Text = result.Text;
         TranslationBox.Opacity = 0;
         TranslationBox.BeginAnimation(OpacityProperty, new DoubleAnimation(1, TimeSpan.FromMilliseconds(220)));
 
-        var parts = new List<string> { LanguageName(result.SourceLanguage) + " ← فارسی" };
+        var parts = new List<string> { Loc.T("result.langpair", Loc.LanguageName(result.SourceLanguage), Loc.LanguageName(TargetLanguage)) };
         if (ocrElapsed is { } o) parts.Add($"OCR {o.TotalMilliseconds:0}ms");
-        parts.Add(result.FromCache ? "از کش" : $"{result.Engine} {result.Elapsed.TotalMilliseconds:0}ms");
+        parts.Add(result.FromCache ? Loc.T("common.cached") : $"{result.Engine} {result.Elapsed.TotalMilliseconds:0}ms");
         SetStatus(string.Join("  ·  ", parts));
         StatusDot.Fill = Theme.Brush("Success");
 
@@ -87,25 +100,12 @@ public partial class ResultWindow : Window
     {
         Loading.Visibility = Visibility.Collapsed;
         TranslationBox.Text = message;
+        TransGrid.FlowDirection = Loc.Flow;                      // the error is interface text, not a translation
+        TranslationBox.FlowDirection = Loc.Flow;
+        TranslationBox.TextAlignment = Loc.IsFa ? TextAlignment.Right : TextAlignment.Left;
         TranslationBox.Foreground = Theme.Brush("Error");
         StatusDot.Fill = Theme.Brush("Error");
-        SetStatus("خطا");
-    }
-
-    private static readonly Dictionary<string, string> PersianLanguageNames = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ["en"] = "انگلیسی", ["fa"] = "فارسی", ["ar"] = "عربی", ["tr"] = "ترکی", ["de"] = "آلمانی",
-        ["fr"] = "فرانسوی", ["es"] = "اسپانیایی", ["it"] = "ایتالیایی", ["pt"] = "پرتغالی", ["ru"] = "روسی",
-        ["zh-CN"] = "چینی", ["zh-TW"] = "چینی", ["zh"] = "چینی", ["ja"] = "ژاپنی", ["ko"] = "کره‌ای", ["hi"] = "هندی",
-        ["ur"] = "اردو", ["nl"] = "هلندی", ["sv"] = "سوئدی", ["pl"] = "لهستانی", ["uk"] = "اوکراینی", ["id"] = "اندونزیایی",
-    };
-
-    private static string LanguageName(string tag)
-    {
-        if (string.IsNullOrEmpty(tag) || tag == "auto") return "خودکار";
-        if (PersianLanguageNames.TryGetValue(tag, out var fa)) return fa;
-        try { return CultureInfo.GetCultureInfo(tag).EnglishName; }
-        catch { return tag.ToUpperInvariant(); }
+        SetStatus(Loc.T("common.error"));
     }
 
     // ---- Placement -----------------------------------------------------
@@ -231,7 +231,7 @@ public partial class ResultWindow : Window
     private void OnCopyTranslation(object sender, RoutedEventArgs e)
     {
         CopyToClipboard(TranslationBox.Text);
-        FlashCopied(CopyButton, "کپی شد ✓", "کپی ترجمه");
+        FlashCopied(CopyButton, Loc.T("common.copied"), Loc.T("result.copy.translation"));
     }
 
     private void OnCopyOriginal(object sender, RoutedEventArgs e) => CopyToClipboard(OriginalBox.Text);

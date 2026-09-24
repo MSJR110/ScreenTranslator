@@ -70,9 +70,9 @@ public partial class App
 
     private async Task DemoPopupAsync(string png)
     {
-        var w = new UI.ResultWindow(new SpeechService(), _settings.PopupFontSize);
+        var w = new UI.ResultWindow(new SpeechService(), _settings.PopupFontSize) { TargetLanguage = _settings.TargetLanguage };
         w.SetOriginal("Live translation paints Persian text directly over the original, sampling the page's own colors so it looks native. Hold Ctrl to peek at the source.");
-        w.SetStatus("در حال ترجمه…");
+        w.SetStatus(UI.Loc.T("common.translating"));
         w.ShowNear(new System.Drawing.Rectangle(300, 260, 520, 40));
         await Task.Delay(700);
         w.SetTranslation(new Models.TranslationResult(
@@ -85,7 +85,7 @@ public partial class App
 
     private async Task DemoWordAsync(string png, string word)
     {
-        var w = new UI.WordWindow(word, new SpeechService(), hasLine: true);
+        var w = new UI.WordWindow(word, new SpeechService(), hasLine: true) { TargetLanguage = _settings.TargetLanguage };
         w.ShowNear(new System.Drawing.Rectangle(400, 300, 120, 22));
         UI.HighlightWindow.Flash(new System.Drawing.Rectangle(400, 300, 120, 22));
         var tTask = _translator!.TranslateAsync(word, _settings.TargetLanguage);
@@ -136,7 +136,7 @@ public partial class App
 
     private async Task DemoToastAsync(string png)
     {
-        UI.ToastWindow.Show("متن کپی شد", "۴ خط · ۳۱ کلمه · OCR 96ms", UI.ToastKind.Success, 4000);
+        UI.ToastWindow.Show(UI.Loc.T("toast.copied.title"), UI.Loc.T("toast.copied.body", 4, 31, 96), UI.ToastKind.Success, 4000);
         await Task.Delay(700);
         var area = System.Windows.Forms.Screen.PrimaryScreen!.WorkingArea;
         var dip = UI.Dpi.ToDip(area);
@@ -154,9 +154,9 @@ public partial class App
     private async Task DemoHistoryAsync(string png)
     {
         var store = new HistoryStore();
-        store.Entries.Add(new HistoryEntry(DateTime.Now.AddMinutes(-3), "Live translation paints Persian text directly over the original.", "ترجمه‌ی زنده متن فارسی را مستقیماً روی متن اصلی می‌کشد.", "en", "Google", "ناحیه"));
-        store.Entries.Add(new HistoryEntry(DateTime.Now.AddHours(-2), "Hold Ctrl to peek at the source.", "برای دیدن متن اصلی، Ctrl را نگه دار.", "en", "Claude", "انتخاب"));
-        store.Entries.Add(new HistoryEntry(DateTime.Now.AddDays(-1), "Settings are stored per user; API keys are encrypted with DPAPI.", "تنظیمات برای هر کاربر ذخیره می‌شود؛ کلیدهای API با DPAPI رمز می‌شوند.", "en", "Google", "کلیپ‌بورد"));
+        store.Entries.Add(new HistoryEntry(DateTime.Now.AddMinutes(-3), "Live translation paints Persian text directly over the original.", "ترجمه‌ی زنده متن فارسی را مستقیماً روی متن اصلی می‌کشد.", "en", "Google", "mode.region"));
+        store.Entries.Add(new HistoryEntry(DateTime.Now.AddHours(-2), "Hold Ctrl to peek at the source.", "برای دیدن متن اصلی، Ctrl را نگه دار.", "en", "Claude", "mode.selection"));
+        store.Entries.Add(new HistoryEntry(DateTime.Now.AddDays(-1), "Settings are stored per user; API keys are encrypted with DPAPI.", "تنظیمات برای هر کاربر ذخیره می‌شود؛ کلیدهای API با DPAPI رمز می‌شوند.", "en", "Google", "mode.clipboard"));
         await DemoWindowAsync(new UI.HistoryWindow(store), png);
     }
 

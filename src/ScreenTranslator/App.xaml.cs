@@ -46,7 +46,8 @@ public partial class App : Application
         TaskScheduler.UnobservedTaskException += (_, args) => args.SetObserved();
 
         _settings = AppSettings.Load();
-        Theme.Apply(Environment.GetEnvironmentVariable("ST_THEME") ?? _settings.Theme);   // env override for visual checks
+        Loc.Use(Environment.GetEnvironmentVariable("ST_LANG") ?? _settings.UiLanguage);   // env overrides for visual checks
+        Theme.Apply(Environment.GetEnvironmentVariable("ST_THEME") ?? _settings.Theme);
         _translator = TranslatorFactory.Create(_settings);
 
         try
@@ -134,9 +135,9 @@ public partial class App : Application
         _tray?.UpdateShortcuts(_settings.HotkeyRegion, _settings.HotkeySelection, _settings.HotkeyLiveRegion, _settings.HotkeyLiveWindow, _settings.HotkeyWord, _settings.HotkeyCopyText);
 
         if (failed.Count > 0)
-            ToastWindow.Show("میان‌بر در دسترس نیست", $"{string.Join("، ", failed)} توسط برنامه‌ی دیگری گرفته شده. از تنظیمات عوضش کن.", ToastKind.Warning, 5000);
+            ToastWindow.Show(Loc.T("toast.hotkey.title"), Loc.T("toast.hotkey.body", string.Join(Loc.IsFa ? "، " : ", ", failed)), ToastKind.Warning, 5000);
         else if (announce)
-            ToastWindow.Show("ScreenTranslator آماده است", $"{_settings.HotkeyRegion} ناحیه  ·  {_settings.HotkeyWord} کلمه  ·  {_settings.HotkeyLiveRegion} زنده", ToastKind.Info, 3500);
+            ToastWindow.Show(Loc.T("toast.ready.title"), Loc.T("toast.ready.body", _settings.HotkeyRegion, _settings.HotkeyWord, _settings.HotkeyLiveRegion), ToastKind.Info, 3500);
     }
 
     private void OnSettingsSaved()
@@ -175,11 +176,11 @@ public partial class App : Application
     {
         if (ex is HttpRequestException http)
         {
-            if (http.Message.Contains("429")) return "سرویس ترجمه موقتاً محدود کرده. چند ثانیه صبر کن و دوباره امتحان کن.";
-            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable()) return "اینترنت وصل نیست.";
-            return "اتصال به سرویس ترجمه برقرار نشد. اینترنت یا فیلترشکن را بررسی کن.";
+            if (http.Message.Contains("429")) return Loc.T("error.rate");
+            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable()) return Loc.T("error.offline");
+            return Loc.T("error.connect");
         }
-        if (ex is TaskCanceledException) return "سرویس ترجمه دیر جواب داد. دوباره امتحان کن.";
+        if (ex is TaskCanceledException) return Loc.T("error.timeout");
         return ex.Message;
     }
 
@@ -189,7 +190,10 @@ public partial class App : Application
     {
         CloseResult();
         var remembered = _settings.PopupHeight > 0 ? new Size(_settings.PopupWidth, _settings.PopupHeight) : (Size?)null;
-        _result = new ResultWindow(_settings.SpeakEnabled ? _speech : null, _settings.PopupFontSize, remembered);
+        _result = new ResultWindow(_settings.SpeakEnabled ? _speech : null, _settings.PopupFontSize, remembered)
+        {
+            TargetLanguage = _settings.TargetLanguage,
+        };
         _result.Closed += (s, _) => { if (ReferenceEquals(s, _result)) { _result = null; MemoryTrim.TrimLater(); } };
         _result.SizeSettled += size =>
         {
@@ -301,7 +305,7 @@ public partial class App : Application
         using var bitmap = ScreenCapture.Capture(pick.PixelRect);
 
         var window = OpenResult();
-        window.SetStatus("در حال خواندن متن…");
+        window.SetStatus(Loc.T("result.reading"));
         window.ShowNear(pick.PixelRect);
 
         var page = await _ocr!.RecognizeAsync(bitmap);
@@ -309,19 +313,19 @@ public partial class App : Application
 
         if (page.Lines.Count == 0)
         {
-            window.ShowError("متنی در این ناحیه پیدا نشد.");
+            window.ShowError(Loc.T("error.notext.region"));
             return;
         }
 
         var text = TextLayout.Compose(page.Lines);
         window.SetOriginal(text);
-        window.SetStatus($"OCR {page.Elapsed.TotalMilliseconds:0}ms  ·  در حال ترجمه…");
+        window.SetStatus($"OCR {page.Elapsed.TotalMilliseconds:0}ms  ·  {Loc.T("common.translating")}");
 
         var translation = await _translator!.TranslateAsync(text, _settings.TargetLanguage);
         if (Stale(id)) return;
 
         window.SetTranslation(translation, page.Elapsed);
-        Record("ناحیه", text, translation);
+        Record("mode.region", text, translation);
     }
 
     // ---- Mode 2: live overlay ---------------------------------------------
@@ -353,7 +357,7 @@ public partial class App : Application
         if (hwnd == IntPtr.Zero || hwnd == NativeMethods.GetShellWindow() || hwnd == NativeMethods.GetDesktopWindow()
             || WindowEffects.GetWindowBounds(hwnd) is null)
         {
-            _tray?.ShowBalloon("ترجمه‌ی زنده", $"اول پنجره‌ای را که می‌خواهی ترجمه شود فعال کن، بعد {_settings.HotkeyLiveWindow} بزن.", System.Windows.Forms.ToolTipIcon.Info);
+            _tray?.ShowBalloon(Loc.T("toast.livewindow.title"), Loc.T("toast.livewindow.body", _settings.HotkeyLiveWindow), System.Windows.Forms.ToolTipIcon.Info);
             return;
         }
         _live!.StartWindow(hwnd);
@@ -383,21 +387,23 @@ public partial class App : Application
 
         if (selection is null)
         {
-            window.SetStatus("متن انتخاب‌شده");
+            window.SetStatus(Loc.T("result.selection"));
             window.ShowAt(cursor.X, cursor.Y);
-            window.ShowError("متنی انتخاب نشده و کلیپ‌بورد هم خالی است.");
+            window.ShowError(Loc.T("error.noselection"));
             return;
         }
 
         window.SetOriginal(selection.Text);
-        window.SetStatus(selection.FromClipboardFallback ? "از کلیپ‌بورد  ·  در حال ترجمه…" : "در حال ترجمه…");
+        window.SetStatus(selection.FromClipboardFallback
+            ? $"{Loc.T("result.fromclipboard")}  ·  {Loc.T("common.translating")}"
+            : Loc.T("common.translating"));
         window.ShowAt(cursor.X, cursor.Y);
 
         var translation = await _translator!.TranslateAsync(selection.Text, _settings.TargetLanguage);
         if (Stale(id)) return;
 
         window.SetTranslation(translation);
-        Record(selection.FromClipboardFallback ? "کلیپ‌بورد" : "انتخاب", selection.Text, translation);
+        Record(selection.FromClipboardFallback ? "mode.clipboard" : "mode.selection", selection.Text, translation);
     }
 
     // ---- Mode 4: dictionary card for the word under the mouse -------------
@@ -423,7 +429,7 @@ public partial class App : Application
         var clean = word is null ? "" : DictionaryService.CleanWord(word.Text);
         if (word is null || !clean.Any(char.IsLetter))
         {
-            ToastWindow.Show("کلمه‌ای زیر موس پیدا نشد", $"نشانگر را روی یک کلمه بگذار و {_settings.HotkeyWord} بزن.", ToastKind.Info);
+            ToastWindow.Show(Loc.T("toast.noword.title"), Loc.T("toast.noword.body", _settings.HotkeyWord), ToastKind.Info);
             return;
         }
 
@@ -432,7 +438,7 @@ public partial class App : Application
         bool hasLine = line is not null && line.Words!.Count > 1;
 
         HighlightWindow.Flash(wordPx);
-        var card = new WordWindow(clean, _settings.SpeakEnabled ? _speech : null, hasLine);
+        var card = new WordWindow(clean, _settings.SpeakEnabled ? _speech : null, hasLine) { TargetLanguage = _settings.TargetLanguage };
         _wordWindow = card;
         card.Closed += (s, _) => { if (ReferenceEquals(s, _wordWindow)) { _wordWindow = null; MemoryTrim.TrimLater(); } };
         card.TranslateLineRequested += () =>
@@ -443,7 +449,7 @@ public partial class App : Application
             {
                 var w = OpenResult();
                 w.SetOriginal(lineText);
-                w.SetStatus("در حال ترجمه…");
+                w.SetStatus(Loc.T("common.translating"));
                 w.ShowNear(linePx);
                 var t = await _translator!.TranslateAsync(lineText, _settings.TargetLanguage);
                 if (Stale(jid)) return;
@@ -494,16 +500,17 @@ public partial class App : Application
 
         if (page.Lines.Count == 0)
         {
-            ToastWindow.Show("متنی در این ناحیه پیدا نشد", null, ToastKind.Warning);
+            ToastWindow.Show(Loc.T("toast.notext.title"), null, ToastKind.Warning);
             return;
         }
 
         var text = TextLayout.Compose(page.Lines);
         try { Clipboard.SetDataObject(text, true); }
-        catch { ToastWindow.Show("کلیپ‌بورد در دسترس نبود", "برنامه‌ی دیگری آن را قفل کرده؛ دوباره امتحان کن.", ToastKind.Error); return; }
+        catch { ToastWindow.Show(Loc.T("toast.clipboard.title"), Loc.T("toast.clipboard.body"), ToastKind.Error); return; }
 
         int words = text.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).Length;
-        ToastWindow.Show("متن کپی شد", $"{page.Lines.Count} خط · {words} کلمه · OCR {page.Elapsed.TotalMilliseconds:0}ms", ToastKind.Success);
+        ToastWindow.Show(Loc.T("toast.copied.title"),
+            Loc.T("toast.copied.body", page.Lines.Count, words, page.Elapsed.TotalMilliseconds.ToString("0")), ToastKind.Success);
     }
 
     private void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

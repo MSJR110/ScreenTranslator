@@ -18,6 +18,9 @@ public partial class WordWindow : Window
     private string _language = "en";
     private bool _pinned;
 
+    /// <summary>Language the meaning is translated into — decides which way the hero card reads.</summary>
+    public string TargetLanguage { get; init; } = "fa";
+
     /// <summary>The user wants the whole line translated; the host opens the regular popup.</summary>
     public event Action? TranslateLineRequested;
 
@@ -59,6 +62,9 @@ public partial class WordWindow : Window
     {
         _language = result.SourceLanguage.Split('-')[0];
         TranslationLoading.Visibility = Visibility.Collapsed;
+        bool rtl = Loc.IsRtl(TargetLanguage);
+        TranslationBox.FlowDirection = rtl ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        TranslationBox.TextAlignment = rtl ? TextAlignment.Right : TextAlignment.Left;
         TranslationBox.Text = result.Text;
         FadeIn(TranslationBox);
     }
@@ -66,6 +72,8 @@ public partial class WordWindow : Window
     public void SetTranslationError(string message)
     {
         TranslationLoading.Visibility = Visibility.Collapsed;
+        TranslationBox.FlowDirection = Loc.Flow;
+        TranslationBox.TextAlignment = Loc.IsFa ? TextAlignment.Right : TextAlignment.Left;
         TranslationBox.Text = message;
         TranslationBox.Foreground = Theme.Brush("Error");
         TranslationBox.FontSize = 13;

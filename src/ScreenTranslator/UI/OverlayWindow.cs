@@ -44,6 +44,9 @@ public sealed class OverlayWindow : Window
     private bool _peeking;
 
     public double BoxOpacity { get; set; } = 1.0;
+    /// <summary>Language the boxes are painted in — decides which way each box reads.</summary>
+    public string TargetLanguage { get; init; } = "fa";
+
     public double FontScale { get; set; } = 1.0;
 
     /// <summary>Hold this virtual key to temporarily hide the overlay and read the original.</summary>
@@ -186,9 +189,10 @@ public sealed class OverlayWindow : Window
             Text = block.Translation,
             FontFamily = Theme.AppFont,
             FontWeight = block.Bold ? FontWeights.Bold : FontWeights.Normal,
-            FlowDirection = FlowDirection.RightToLeft,
+            FlowDirection = Loc.FlowOf(TargetLanguage),
             TextWrapping = TextWrapping.Wrap,
-            TextAlignment = block.Source.LineCount > 1 ? TextAlignment.Justify : TextAlignment.Right,
+            TextAlignment = block.Source.LineCount > 1 ? TextAlignment.Justify
+                          : Loc.IsRtl(TargetLanguage) ? TextAlignment.Right : TextAlignment.Left,
             LineStackingStrategy = LineStackingStrategy.BlockLineHeight,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(PadX - 1, PadY, PadX - 1, PadY),   // 1 DIP slack: glyph overhangs would be clipped otherwise

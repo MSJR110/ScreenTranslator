@@ -1,6 +1,7 @@
 <Window x:Class="ScreenTranslator.UI.LivePillWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:ScreenTranslator.UI"
         Title="Live"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -11,7 +12,7 @@
         ShowActivated="False"
         SizeToContent="WidthAndHeight"
         MouseLeftButtonDown="OnDrag"
-        FlowDirection="RightToLeft">
+        FlowDirection="{ui:Flow}">
 
     <Border x:Name="Shell" Background="{DynamicResource Surface}" CornerRadius="22" Padding="6,5,12,5"
             BorderBrush="{DynamicResource Rim}" BorderThickness="1" Margin="10">
@@ -22,10 +23,10 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 
             <!-- stop -->
-            <Button Style="{StaticResource IconButton}" Content="&#xE711;" ToolTip="پایان لایو (Ctrl+Alt+L)" Click="OnStop" FontSize="13" />
+            <Button Style="{StaticResource IconButton}" Content="&#xE711;" ToolTip="{ui:L live.stop.tip}" Click="OnStop" FontSize="13" />
 
             <!-- re-select -->
-            <Button x:Name="ReselectButton" Style="{StaticResource IconButton}" Content="&#xE7A8;" ToolTip="انتخاب دوباره‌ی ناحیه" Click="OnReselect" FontSize="13" />
+            <Button x:Name="ReselectButton" Style="{StaticResource IconButton}" Content="&#xE7A8;" ToolTip="{ui:L live.reselect}" Click="OnReselect" FontSize="13" />
 
             <!-- pause / resume -->
             <Button x:Name="PauseButton" Style="{StaticResource IconButton}" Content="&#xE769;" ToolTip="مکث" Click="OnPause" FontSize="13" />
@@ -33,7 +34,7 @@
             <Rectangle Width="1" Height="18" Fill="{DynamicResource Divider}" Margin="6,0" />
 
             <TextBlock x:Name="Stats" Style="{StaticResource MutedLabel}" Margin="0,0,10,0" Text="" />
-            <TextBlock x:Name="TitleText" Style="{StaticResource Label}" FontWeight="SemiBold" Text="ترجمه‌ی زنده" Margin="0,0,8,0" />
+            <TextBlock x:Name="TitleText" Style="{StaticResource Label}" FontWeight="SemiBold" Text="{ui:L live.title}" Margin="0,0,8,0" />
 
             <Grid Width="10" Height="10" VerticalAlignment="Center">
                 <Ellipse x:Name="Pulse" Fill="{DynamicResource Success}" Opacity="0.35" />

@@ -18,15 +18,22 @@ public partial class HistoryWindow : Window
     {
         public string Translation => Entry.Translation;
         public string Source => Entry.Source;
-        public string Meta => $"{Relative(Entry.When)}  ·  {Entry.Engine}  ·  {Entry.Mode}";
+
+        // Each line reads in its own direction, whatever the interface language is.
+        public FlowDirection Direction => Loc.DetectFlow(Entry.Translation);
+        public TextAlignment Align => Direction == FlowDirection.RightToLeft ? TextAlignment.Right : TextAlignment.Left;
+        public FlowDirection SourceDirection => Loc.DetectFlow(Entry.Source);
+        public TextAlignment SourceAlign => SourceDirection == FlowDirection.RightToLeft ? TextAlignment.Right : TextAlignment.Left;
+        // Mode is stored as a key ("mode.region"); entries written by older versions kept their text, which Loc.T passes through.
+        public string Meta => $"{Relative(Entry.When)}  ·  {Entry.Engine}  ·  {Loc.T(Entry.Mode)}";
 
         private static string Relative(DateTime t)
         {
             var d = DateTime.Now - t;
-            if (d.TotalMinutes < 1) return "همین الان";
-            if (d.TotalHours < 1) return $"{(int)d.TotalMinutes} دقیقه پیش";
-            if (d.TotalDays < 1) return $"{(int)d.TotalHours} ساعت پیش";
-            if (d.TotalDays < 7) return $"{(int)d.TotalDays} روز پیش";
+            if (d.TotalMinutes < 1) return Loc.T("time.now");
+            if (d.TotalHours < 1) return Loc.T("time.minutes", (int)d.TotalMinutes);
+            if (d.TotalDays < 1) return Loc.T("time.hours", (int)d.TotalHours);
+            if (d.TotalDays < 7) return Loc.T("time.days", (int)d.TotalDays);
             return t.ToString("yyyy/MM/dd");
         }
     }
@@ -68,7 +75,7 @@ public partial class HistoryWindow : Window
         var rows = items.Select(e => new Row(e)).ToList();
         List.ItemsSource = rows;
         Empty.Visibility = rows.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-        CountText.Text = _store.Entries.Count == 0 ? "" : $"{_store.Entries.Count} مورد";
+        CountText.Text = _store.Entries.Count == 0 ? "" : Loc.T("history.count", _store.Entries.Count);
     }
 
     private void OnSearch(object sender, TextChangedEventArgs e)
@@ -98,7 +105,7 @@ public partial class HistoryWindow : Window
     private void OnClearAll(object sender, RoutedEventArgs e)
     {
         if (_store.Entries.Count == 0) return;
-        if (MessageBox.Show(this, "همه‌ی تاریخچه پاک شود؟", "ScreenTranslator", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+        if (MessageBox.Show(this, Loc.T("history.confirm"), "ScreenTranslator", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             _store.Clear();
     }
 
