@@ -105,7 +105,7 @@ public partial class HistoryWindow : Window
     private void OnClearAll(object sender, RoutedEventArgs e)
     {
         if (_store.Entries.Count == 0) return;
-        if (MessageBox.Show(this, Loc.T("history.confirm"), "ScreenTranslator", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+        if (DialogWindow.Confirm(this, Loc.T("history.confirm"), Loc.T("history.confirm.body"), Loc.T("history.clear"), "\uE74D"))
             _store.Clear();
     }
 

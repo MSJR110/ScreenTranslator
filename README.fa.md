@@ -114,6 +114,7 @@ src/ScreenTranslator/
 │  ├─ ResultWindow           پاپ‌آپ ترجمه (Acrylic، قابل تغییر اندازه)
 │  ├─ WordWindow             کارت دیکشنری یک کلمه
 │  ├─ ToastWindow            HUD کوچک بالای صفحه برای بازخورد (کپی شد، خطا…)
+│  ├─ DialogWindow           دیالوگ تأیید/هشدار با شیشه‌ی خود اپ، به‌جای MessageBox ویندوز
 │  ├─ HighlightWindow        فلش کوتاه دور کلمه‌ی انتخاب‌شده
 │  ├─ SettingsWindow         تنظیمات (تب‌ها: عمومی، میان‌برها، زنده، موتور، درباره)
 │  ├─ HistoryWindow / WelcomeWindow / RegionSelectorWindow (هر مانیتور یک پنجره)
@@ -138,7 +139,7 @@ src/ScreenTranslator/
 .\dist\ScreenTranslator.exe --demo-live-file page.png out.png   # کل مسیر حالت زنده روی یک PNG
 ```
 
-حالت‌ها: `--demo-popup|settings|history|welcome|word|lookup|selector|toast|tray|live|live-file`؛ متغیر `ST_THEME=light|dark` تم را عوض می‌کند.
+حالت‌ها: `--demo-popup|settings|history|welcome|word|lookup|selector|toast|dialog|tray|live|live-file`؛ متغیر `ST_THEME=light|dark` تم را عوض می‌کند.
 
 ## حریم خصوصی
 

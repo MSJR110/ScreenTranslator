@@ -119,6 +119,7 @@ src/ScreenTranslator/
 │  ├─ ResultWindow           translation popup (acrylic, resizable)
 │  ├─ WordWindow             single-word dictionary card
 │  ├─ ToastWindow            small HUD for feedback (copied, error…)
+│  ├─ DialogWindow           confirm/notice dialog in the app's own glass, instead of a system message box
 │  ├─ HighlightWindow        brief flash around the picked word
 │  ├─ SettingsWindow         settings (general, shortcuts, live, engine, about)
 │  ├─ HistoryWindow / WelcomeWindow / RegionSelectorWindow (one per monitor)
@@ -143,7 +144,7 @@ Every window can be screenshotted without touching the mouse:
 .\dist\ScreenTranslator.exe --demo-live-file page.png out.png   # run the whole live pipeline over a PNG
 ```
 
-`--demo-popup|settings|history|welcome|word|lookup|selector|toast|tray|live|live-file` are all supported; `ST_THEME=light|dark` overrides the theme.
+`--demo-popup|settings|history|welcome|word|lookup|selector|toast|dialog|tray|live|live-file` are all supported; `ST_THEME=light|dark` overrides the theme.
 
 ## Privacy
 

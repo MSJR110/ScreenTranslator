@@ -230,14 +230,14 @@ public partial class SettingsWindow : Window
         if (chords.Distinct().Count() != chords.Count)
         {
             TabHotkeys.IsChecked = true;
-            MessageBox.Show(this, Loc.T("settings.hotkey.duplicate"), "ScreenTranslator", MessageBoxButton.OK, MessageBoxImage.Warning);
+            DialogWindow.Alert(this, Loc.T("settings.hotkey.duplicate"));
             return;
         }
 
         SnapshotToSettings(_settings);
 
         try { StartupManager.SetEnabled(StartupCheck.IsChecked == true); }
-        catch (Exception ex) { MessageBox.Show(this, ex.Message, "ScreenTranslator", MessageBoxButton.OK, MessageBoxImage.Warning); }
+        catch (Exception ex) { DialogWindow.Alert(this, ex.Message); }
 
         _settings.Save();
         Theme.Apply(_settings.Theme);

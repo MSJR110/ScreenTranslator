@@ -45,6 +45,9 @@ public partial class App
             case "--demo-tray":
                 Guard(DemoTrayAsync(args[1], args.Length > 2 && args[2] == "live"), args[1]);
                 return true;
+            case "--demo-dialog":
+                Guard(DemoDialogAsync(args[1], args.Length > 2 && args[2] == "alert"), args[1]);
+                return true;
             case "--demo-toast":
                 Guard(DemoToastAsync(args[1]), args[1]);
                 return true;
@@ -144,6 +147,24 @@ public partial class App
         Shutdown();
     }
 
+    private async Task DemoDialogAsync(string png, bool alert)
+    {
+        var owner = new UI.HistoryWindow(DemoHistory());
+        owner.Show();
+        await Task.Delay(500);
+
+        // The dialog blocks in ShowDialog, but its nested message loop keeps this continuation running.
+        _ = Dispatcher.InvokeAsync(() =>
+        {
+            if (alert) UI.DialogWindow.Alert(owner, UI.Loc.T("settings.hotkey.duplicate"));
+            else UI.DialogWindow.Confirm(owner, UI.Loc.T("history.confirm"), UI.Loc.T("history.confirm.body"), UI.Loc.T("history.clear"), "\uE74D");
+        });
+        await Task.Delay(700);
+
+        SaveScreenshot(png, new Rect(owner.Left - 30, owner.Top - 30, owner.ActualWidth + 60, owner.ActualHeight + 60));
+        Shutdown();
+    }
+
     private Task DemoSettingsAsync(string png, string tab)
     {
         var w = new UI.SettingsWindow(_settings);
@@ -151,13 +172,16 @@ public partial class App
         return DemoWindowAsync(w, png);
     }
 
-    private async Task DemoHistoryAsync(string png)
+    private Task DemoHistoryAsync(string png) => DemoWindowAsync(new UI.HistoryWindow(DemoHistory()), png);
+
+    /// <summary>A few believable entries, so the history and dialog demos aren't shot against an empty list.</summary>
+    private static HistoryStore DemoHistory()
     {
         var store = new HistoryStore();
         store.Entries.Add(new HistoryEntry(DateTime.Now.AddMinutes(-3), "Live translation paints Persian text directly over the original.", "ترجمه‌ی زنده متن فارسی را مستقیماً روی متن اصلی می‌کشد.", "en", "Google", "mode.region"));
         store.Entries.Add(new HistoryEntry(DateTime.Now.AddHours(-2), "Hold Ctrl to peek at the source.", "برای دیدن متن اصلی، Ctrl را نگه دار.", "en", "Claude", "mode.selection"));
         store.Entries.Add(new HistoryEntry(DateTime.Now.AddDays(-1), "Settings are stored per user; API keys are encrypted with DPAPI.", "تنظیمات برای هر کاربر ذخیره می‌شود؛ کلیدهای API با DPAPI رمز می‌شوند.", "en", "Google", "mode.clipboard"));
-        await DemoWindowAsync(new UI.HistoryWindow(store), png);
+        return store;
     }
 
     private async Task DemoWindowAsync(Window w, string png)

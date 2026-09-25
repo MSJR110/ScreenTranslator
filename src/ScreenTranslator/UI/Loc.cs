@@ -91,6 +91,9 @@ public static class Loc
         ["common.cached"] = ("از کش", "cached"),
         ["common.copied"] = ("کپی شد ✓", "Copied ✓"),
         ["common.pin"] = ("سنجاق: با کلیک بیرون بسته نشود", "Pin: keep open when clicking away"),
+        ["common.ok"] = ("باشه", "OK"),
+        ["common.confirm"] = ("تأیید", "Confirm"),
+        ["common.cancel"] = ("انصراف", "Cancel"),
 
         // ---- Toasts and errors ----------------------------------------
         ["toast.hotkey.title"] = ("میان‌بر در دسترس نیست", "Shortcut unavailable"),
@@ -187,6 +190,7 @@ public static class Loc
         ["history.search"] = ("جستجو در متن اصلی یا ترجمه…", "Search the original or the translation…"),
         ["history.empty"] = ("هنوز چیزی ترجمه نکرده‌ای", "Nothing translated yet"),
         ["history.confirm"] = ("همه‌ی تاریخچه پاک شود؟", "Clear the entire history?"),
+        ["history.confirm.body"] = ("این کار برگشت‌پذیر نیست.", "This cannot be undone."),
         ["history.copy"] = ("کپی ترجمه", "Copy translation"),
         ["history.count"] = ("{0} مورد", "{0} entries"),
         ["time.now"] = ("همین الان", "just now"),

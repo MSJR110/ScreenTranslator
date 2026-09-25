@@ -56,7 +56,7 @@ public partial class App : Application
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "ScreenTranslator", MessageBoxButton.OK, MessageBoxImage.Error);
+            UI.DialogWindow.Alert(null, ex.Message, null, UI.DialogKind.Error);
             Shutdown();
             return;
         }
